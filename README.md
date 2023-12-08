@@ -17,7 +17,7 @@
 ###  installation
 <details>
 
-debian(shadowsocks):
+server__debian(shadowsocks):
 
 `bash <(curl -fsSL https://sing-box.app/deb-install.sh)`
 
@@ -68,5 +68,14 @@ vim /etc/sing-box/config.json
   }
 }
 ```
+
+running:
+
+`systemctl enable sing-box --now | systemctl restart sing-box | systemctl status sing-box`
+
+
+client:
+
+......
 
 </details>
