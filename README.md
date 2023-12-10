@@ -12,6 +12,8 @@
 
   [ Shadowsock __ AEAD 2022 setup ](https://pincong.rocks/article/item_id-1138365)
 
+  [网络代理平台的“瑞士军刀”](https://bulianglin.com/archives/sing-box.html)
+
 </details>
 
 ###  installation
