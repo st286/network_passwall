@@ -8,6 +8,8 @@
 
   [sing-box _ github.com ](https://github.com/SagerNet/sing-box)
 
+  [sing-box 1.8.0+版本迁移指南，Rule Set配置使用](https://idev.dev/proxy/sing-box-rule-set.html)
+
   [sing-box __ manual ](https://sing-box.sagernet.org)
 
   [sing-box __ examples __ configuration files](https://github.com/chika0801/sing-box-examples)
