@@ -12,6 +12,8 @@
 
   [sing-box __ manual ](https://sing-box.sagernet.org)
 
+  [NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid)
+
   [sing-box __ examples __ configuration files](https://github.com/chika0801/sing-box-examples)
 
   [ Shadowsock __ AEAD 2022 setup ](https://pincong.rocks/article/item_id-1138365)
