@@ -4,7 +4,7 @@
 
 [shadowsocks](https://shadowsocks.org)
 
-### [the-book-of-secret-knowledge](https://github.com/trimstray/the-book-of-secret-knowledge)
+[the-book-of-secret-knowledge](https://github.com/trimstray/the-book-of-secret-knowledge)
 
 
 ## sing-box 
