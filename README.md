@@ -59,6 +59,16 @@ If you are building for your current CPU platform (for example, build and run on
 ###  installation
 <details>
 
+client: build from source.
+
+```
+git clone https://github.com/SagerNet/sing-box.git
+cd sing-box
+make
+make install
+```
+
+
 server__debian(shadowsocks):
 
 `bash <(curl -fsSL https://sing-box.app/deb-install.sh)`
