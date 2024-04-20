@@ -161,7 +161,7 @@ running:
 `systemctl enable sing-box --now | systemctl restart sing-box | systemctl status sing-box`
 
 
-sing-box.service in /etc/systemd/system
+sing-box.service in /lib/systemd/system
 
 client:
 
