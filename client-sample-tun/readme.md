@@ -1,4 +1,4 @@
-
+IOS、appleTV.
 
 Android 使用方法：
 
