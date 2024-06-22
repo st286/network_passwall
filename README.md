@@ -89,6 +89,8 @@ WantedBy=multi-user.target
 
   [网络代理平台的“瑞士军刀”](https://bulianglin.com/archives/sing-box.html)
 
+  [使用 TUN 的模式](https://zu1k.com/posts/coding/tun-mode/)
+
 </details>
 
 ###  installation
