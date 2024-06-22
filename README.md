@@ -2,6 +2,8 @@
 
 ## base
 
+[左耳朵](https://github.com/haoel/haoel.github.io/blob/master/README.md)
+
 [shadowsocks](https://shadowsocks.org)
 
 [github - shadowsocks](https://github.com/shadowsocks)
