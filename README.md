@@ -10,69 +10,6 @@
 
 [the-book-of-secret-knowledge](https://github.com/trimstray/the-book-of-secret-knowledge)
 
-## shadowsocks
-<details>
-
-[SS  Crates](https://crates.io/crates/shadowsocks-rust)
-
-[shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
-
-### Build from source
-
-Use cargo to build. NOTE: RAM >= 2GiB
-
-    cargo build --release
-
-Then sslocal and ssserver will appear in ./target/(debug|release)/, it works similarly as the two binaries in the official ShadowSocks' implementation.
-
-    make install TARGET=release
-
-Then sslocal, ssserver, ssmanager and ssurl will be installed to /usr/local/bin (variable PREFIX).
-
-For Windows users, if you have encountered any problem in building, check and discuss in #102.
-
-target-cpu optimization
-
-If you are building for your current CPU platform (for example, build and run on your personal computer), it is recommended to set target-cpu=native feature to let rustc generate and optimize code for the CPU running the compiler.
-
-    export RUSTFLAGS="-C target-cpu=native"
-
-### 使用 systemd 守护进程
-
-    vim /etc/systemd/system/shadowsocks.service
-
-写入内容如下：
-```
-[Unit]
-Description=Shadowsocks Server
-After=network.target
-
-[Service]
-ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
-
-Restart=on-abort
-
-[Install]
-WantedBy=multi-user.target
-```
-
-### Config.json
-
-```
-{
-    "server": "x.x.x.x",
-    "server_port": x,
-    "password": "xxxx",
-    "method": "2022-blake3-chacha20-poly1305",
-
-    "local_port": 1080,
-    "local_address": "127.0.0.1"
-}
-
-```
-
-</details>
-
 
 ## sing-box 
  <details> 
@@ -172,3 +109,70 @@ client:
 ......
 
 </details>
+
+
+
+
+## shadowsocks
+<details>
+
+[SS  Crates](https://crates.io/crates/shadowsocks-rust)
+
+[shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
+
+### Build from source
+
+Use cargo to build. NOTE: RAM >= 2GiB
+
+    cargo build --release
+
+Then sslocal and ssserver will appear in ./target/(debug|release)/, it works similarly as the two binaries in the official ShadowSocks' implementation.
+
+    make install TARGET=release
+
+Then sslocal, ssserver, ssmanager and ssurl will be installed to /usr/local/bin (variable PREFIX).
+
+For Windows users, if you have encountered any problem in building, check and discuss in #102.
+
+target-cpu optimization
+
+If you are building for your current CPU platform (for example, build and run on your personal computer), it is recommended to set target-cpu=native feature to let rustc generate and optimize code for the CPU running the compiler.
+
+    export RUSTFLAGS="-C target-cpu=native"
+
+### 使用 systemd 守护进程
+
+    vim /etc/systemd/system/shadowsocks.service
+
+写入内容如下：
+```
+[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
+
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Config.json
+
+```
+{
+    "server": "x.x.x.x",
+    "server_port": x,
+    "password": "xxxx",
+    "method": "2022-blake3-chacha20-poly1305",
+
+    "local_port": 1080,
+    "local_address": "127.0.0.1"
+}
+
+```
+
+</details>
+
