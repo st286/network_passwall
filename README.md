@@ -51,7 +51,7 @@ server__debian(shadowsocks):
 
 vim /etc/sing-box/config.json
 
-    sing-box generate rand --base64
+    sing-box generate rand --base64  32
 
 ```
 {
