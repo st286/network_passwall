@@ -113,34 +113,26 @@ client:
 </details>
 
 
+---
 
-
-## shadowsocks
+## [Shadowsocks](https://shadowsocks.org)
 <details>
 
 [SS  Crates](https://crates.io/crates/shadowsocks-rust)
 
 [shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
 
-### Build from source
+### Install from [crates.io](https://crates.io/crates/shadowsocks-rust):
 
-Use cargo to build. NOTE: RAM >= 2GiB
+Install from crates.io
 
-    cargo build --release
+    cargo install shadowsocks-rust
 
-Then sslocal and ssserver will appear in ./target/(debug|release)/, it works similarly as the two binaries in the official ShadowSocks' implementation.
+then you can find sslocal and ssserver in $CARGO_HOME/bin.
 
-    make install TARGET=release
+Generate a safe and secured password for a specific encryption method ( 2022-blake3-chacha20-poly1305 in the example) with:
 
-Then sslocal, ssserver, ssmanager and ssurl will be installed to /usr/local/bin (variable PREFIX).
-
-For Windows users, if you have encountered any problem in building, check and discuss in #102.
-
-target-cpu optimization
-
-If you are building for your current CPU platform (for example, build and run on your personal computer), it is recommended to set target-cpu=native feature to let rustc generate and optimize code for the CPU running the compiler.
-
-    export RUSTFLAGS="-C target-cpu=native"
+    ssservice genkey -m "2022-blake3-chacha20-poly1305"
 
 ### 使用 systemd 守护进程
 
@@ -153,7 +145,7 @@ Description=Shadowsocks Server
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
+ExecStart=/root/.cargo/bin/ssserver -c /root/ss.json
 
 Restart=on-abort
 
@@ -161,17 +153,14 @@ Restart=on-abort
 WantedBy=multi-user.target
 ```
 
-### Config.json
+ ss.json
 
 ```
 {
-    "server": "x.x.x.x",
-    "server_port": x,
+    "server": "0.0.0.0",
+    "server_port": 11,
     "password": "xxxx",
-    "method": "2022-blake3-chacha20-poly1305",
-
-    "local_port": 1080,
-    "local_address": "127.0.0.1"
+    "method": "2022-blake3-chacha20-poly1305"
 }
 
 ```
