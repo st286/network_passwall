@@ -1,10 +1,64 @@
 # network_passwall
 
+---
+
+## [Shadowsocks](https://shadowsocks.org)
+<details>
+
+[SS  Crates](https://crates.io/crates/shadowsocks-rust)
+
+[shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
+
+### Install from [crates.io](https://crates.io/crates/shadowsocks-rust):
+
+Install from crates.io
+
+    cargo install shadowsocks-rust
+
+then you can find sslocal and ssserver in $CARGO_HOME/bin.
+
+Generate a safe and secured password for a specific encryption method ( 2022-blake3-chacha20-poly1305 in the example) with:
+
+    ssservice genkey -m "2022-blake3-chacha20-poly1305"
+
+### 使用 systemd 守护进程
+
+    vim /etc/systemd/system/shadowsocks.service
+
+写入内容如下：
+```
+[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStart=/root/.cargo/bin/ssserver -c /root/ss.json
+
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+```
+
+ ss.json
+
+```
+{
+    "server": "0.0.0.0",
+    "server_port": 11,
+    "password": "xxxx",
+    "method": "2022-blake3-chacha20-poly1305"
+}
+
+```
+
+</details>
+
+---
+
 ## base
 
 [左耳朵](https://github.com/haoel/haoel.github.io)
-
-[shadowsocks](https://shadowsocks.org)
 
 [github - shadowsocks](https://github.com/shadowsocks)
 
@@ -112,58 +166,4 @@ client:
 
 </details>
 
-
----
-
-## [Shadowsocks](https://shadowsocks.org)
-<details>
-
-[SS  Crates](https://crates.io/crates/shadowsocks-rust)
-
-[shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
-
-### Install from [crates.io](https://crates.io/crates/shadowsocks-rust):
-
-Install from crates.io
-
-    cargo install shadowsocks-rust
-
-then you can find sslocal and ssserver in $CARGO_HOME/bin.
-
-Generate a safe and secured password for a specific encryption method ( 2022-blake3-chacha20-poly1305 in the example) with:
-
-    ssservice genkey -m "2022-blake3-chacha20-poly1305"
-
-### 使用 systemd 守护进程
-
-    vim /etc/systemd/system/shadowsocks.service
-
-写入内容如下：
-```
-[Unit]
-Description=Shadowsocks Server
-After=network.target
-
-[Service]
-ExecStart=/root/.cargo/bin/ssserver -c /root/ss.json
-
-Restart=on-abort
-
-[Install]
-WantedBy=multi-user.target
-```
-
- ss.json
-
-```
-{
-    "server": "0.0.0.0",
-    "server_port": 11,
-    "password": "xxxx",
-    "method": "2022-blake3-chacha20-poly1305"
-}
-
-```
-
-</details>
 
