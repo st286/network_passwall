@@ -3,6 +3,11 @@
 ---
 
 ## [Shadowsocks](https://shadowsocks.org)
+
+install shadowsocks-rust:
+
+        zsh ss-install.sh PORT
+
 <details>
 
 [SS  Crates](https://crates.io/crates/shadowsocks-rust)
