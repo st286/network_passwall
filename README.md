@@ -4,7 +4,7 @@
 
 ## [Shadowsocks](https://shadowsocks.org)
 
-Install shadowsocks-rust, Run as root on zsh shell in Debian 12 :
+Install shadowsocks-rust Server, Run as root on zsh shell in Debian 12 :
 
         zsh ss-install.sh PORT
 
