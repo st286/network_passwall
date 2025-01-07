@@ -8,6 +8,10 @@ Install shadowsocks-rust Server, Run as root on zsh shell in Debian 12 :
 
         zsh ss-install.sh PORT
 
+Rust update and ss update:
+
+        rustup update && cargo install shadowsocks-rust
+
 <details>
 
 [SS  Crates](https://crates.io/crates/shadowsocks-rust)
