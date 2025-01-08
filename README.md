@@ -4,7 +4,7 @@
 
 ## [Shadowsocks](https://shadowsocks.org)
 
-**VPS's memory > 1 G**
+**Note: VPS's memory > 1 G**
 
 Install shadowsocks-rust Server, Run as root on zsh shell in Debian 12 :
 
