@@ -110,70 +110,22 @@ make install
 ```
 
 
-server__debian(shadowsocks):
+server setup (debian):
 
 `bash <(curl -fsSL https://sing-box.app/deb-install.sh)`
 
 vim /etc/sing-box/config.json
 
+    ##generate password. method is 2022-blake3-chacha20-poly1305
+    
     sing-box generate rand --base64  32
-
-```
-{
-  "log": {
-    "level": "error"
-  },
-  "dns": {
-    "servers": [
-      {
-        "address": "tls://8.8.8.8"
-      }
-    ]
-  },
-  "inbounds": [
-    {
-      "type": "shadowsocks",
-      "listen": "::",
-      "listen_port": XXXX,
-      "sniff": true,
-      "network": "tcp",
-      "method": "2022-blake3-chacha20-poly1305",
-      "password": "XXXX-256-bit-XXXX",
-      "multiplex": {
-        "enabled": true
-      }
-    }
-  ],
-  "outbounds": [
-    {
-      "type": "direct"
-    },
-    {
-      "type": "dns",
-      "tag": "dns-out"
-    }
-  ],
-  "route": {
-    "rules": [
-      {
-        "protocol": "dns",
-        "outbound": "dns-out"
-      }
-    ]
-  }
-}
-```
+    
 
 running:
 
 `systemctl enable sing-box --now | systemctl restart sing-box | systemctl status sing-box`
 
 
-sing-box.service in /lib/systemd/system
-
-client:
-
-......
 
 </details>
 
