@@ -67,7 +67,7 @@ WantedBy=multi-user.target
 
 ---
 
-## sing-box 
+## [Sing-box](https://sing-box.sagernet.org) 
  <details> 
 
   [sing-box _ github.com ](https://github.com/SagerNet/sing-box)
