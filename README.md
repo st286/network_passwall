@@ -63,6 +63,13 @@ WantedBy=multi-user.target
 
 ```
 
+AEAD 2022 Ciphers
+
+        2022-blake3-aes-128-gcm, 2022-blake3-aes-256-gcm
+        2022-blake3-chacha20-poly1305, 2022-blake3-chacha8-poly1305
+
+        ssservice genkey -m "METHOD_NAME"  // generate a secured and safe key
+
 </details>
 
 ---
