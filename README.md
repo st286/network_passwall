@@ -55,7 +55,7 @@ WantedBy=multi-user.target
 
 ```
 {
-    "server": "0.0.0.0",
+    "server": "::",
     "server_port": 11,
     "password": "xxxx",
     "method": "2022-blake3-chacha20-poly1305"
