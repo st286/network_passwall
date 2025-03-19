@@ -77,14 +77,14 @@ Configuration
 
 [UUID-generator](https://www.v2fly.org/en_US/awesome/tools.html)
 
-自签名证书: (/etc/juicity)
+自签名证书:  ( /etc/juicity/ )
 
     openssl req -x509 -newkey rsa:4096 -keyout private_key.pem -out certificate.pem -days 365 -nodes  
         
         * 生成一个私钥 (private_key.pem) 和一个证书 (certificate.pem)，有效期为 365 天
 
 
-config.json (/etc/juicity/config.json)
+config.json ( /etc/juicity/config.json )
 
 ```
 {
@@ -100,7 +100,7 @@ config.json (/etc/juicity/config.json)
 }
 ```
 
-systemd service (/lib/systemd/system/juicity.service )
+systemd service ( /lib/systemd/system/juicity.service )
 ```
 [Unit]
 Description=sing-box service
