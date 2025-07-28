@@ -1,4 +1,4 @@
-# Bypass the Firewall
+# Bypass the Geat Firewall (mainland)
 
 ---
 
