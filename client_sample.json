@@ -1,0 +1,49 @@
+{
+  "log": {
+    "disabled": true,
+    "level": "info",
+    "timestamp": true
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "listen_port": 1080,
+      "sniff": true,
+      "set_system_proxy": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "shadowsocks",
+	  "tag": "proxy",
+      "server": "IIIPPP",
+      "server_port": 123,
+      "method": "2022-blake3-chacha20-poly1305",
+      "password": "L24N0ltzQI12r28GubkXmLSzsaUHg2py6FLIJovg6iI=",
+      "network": "tcp",
+      "udp_over_tcp": true,
+      "multiplex": {
+        "enabled": true
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "domain_suffix": [
+          "qq.com",
+          "163.com",
+          ".cn"
+        ],
+        "domain_keyword": ".cn",
+        "outbound": "direct"
+      }
+    ],
+    "final": "proxy"
+  }
+}
