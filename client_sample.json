@@ -16,7 +16,7 @@
   "outbounds": [
     {
       "type": "shadowsocks",
-	  "tag": "proxy",
+      "tag": "proxy",
       "server": "IIIPPP",
       "server_port": 123,
       "method": "2022-blake3-chacha20-poly1305",
