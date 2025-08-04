@@ -1,6 +1,6 @@
 {
   "log": {
-    "disable": false,
+    "disabled": false,
     "level": "info",
     "timestamp": true
   },
