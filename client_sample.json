@@ -42,6 +42,10 @@
         ],
         "domain_keyword": ".cn",
         "outbound": "direct"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct"
       }
     ],
     "final": "proxy"
