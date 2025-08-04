@@ -1,6 +1,5 @@
 {
   "log": {
-    "disabled": true,
     "level": "info",
     "timestamp": true
   },
@@ -17,10 +16,10 @@
     {
       "type": "shadowsocks",
       "tag": "proxy",
-      "server": "IIIPPP",
-      "server_port": 123,
+      "server": "IP",
+      "server_port": PORT,
       "method": "2022-blake3-chacha20-poly1305",
-      "password": "XXXXXXXXX",
+      "password": "UUID",
       "network": "tcp",
       "udp_over_tcp": true,
       "multiplex": {
@@ -46,6 +45,33 @@
       {
         "ip_is_private": true,
         "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geoip-cn",
+          "geosite-cn"
+        ],
+        "outbound": "direct"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cn",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+        "download_detour": "proxy"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-us",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-us.srs",
+        "download_detour": "proxy"
       }
     ],
     "final": "proxy"
