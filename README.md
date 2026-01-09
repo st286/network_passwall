@@ -36,7 +36,7 @@ make install
 ```
 
 
-server setup (debian):
+server setup (linux):
 
 `curl -fsSL https://sing-box.app/install.sh | sh`
 
