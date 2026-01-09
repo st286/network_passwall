@@ -39,8 +39,9 @@ make install
 server setup (debian):
 
 `curl -fsSL https://sing-box.app/install.sh | sh`
+
 `curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta`
-``
+
 
 vim /etc/sing-box/config.json
 
