@@ -130,23 +130,11 @@ systemctl enable juicity.service --now
 
 ---
 
-## [Shadowsocks](https://shadowsocks.org)
+## [Shadowsocks-rust]()
 
 <details>
 
 **Note: VPS's memory > 1 G**
-
-Install shadowsocks-rust Server, Run as root on zsh shell in Debian 12 :
-
-        zsh ss-install.sh PORT
-
-Rust update and ss update:
-
-        rustup update && cargo install shadowsocks-rust
-
-[SS  Crates](https://crates.io/crates/shadowsocks-rust)
-
-[shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
 
 ### Install from [crates.io](https://crates.io/crates/shadowsocks-rust):
 
@@ -158,37 +146,50 @@ then you can find sslocal and ssserver in $CARGO_HOME/bin.
 
 Generate a safe and secured password for a specific encryption method ( 2022-blake3-chacha20-poly1305 in the example) with:
 
-    ssservice genkey -m "2022-blake3-chacha20-poly1305"
+    ssservice genkey -m "2022-blake3-aes-256-gcm"
 
 ### 使用 systemd 守护进程
 
-    vim /etc/systemd/system/shadowsocks.service
+    vim etc/systemd/system/shadowsocks-rust.service 
 
 写入内容如下：
 ```
 [Unit]
-Description=Shadowsocks Server
-After=network.target
+Description=shadowsocks rust server
+After=network.target nss-lookup.target network-online.target
 
 [Service]
-ExecStart=/root/.cargo/bin/ssserver -c /root/ss.json
-
-Restart=on-abort
+User=root
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+ExecStart=/root/.cargo/bin/ssserver -c /etc/shadowsocks-rust/config.json 
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10s
+LimitNOFILE=infinity
 
 [Install]
 WantedBy=multi-user.target
+
 ```
 
- ss.json
+    vim  /etc/shadowsocks-rust/config.json 
 
 ```
 {
-    "server": "::",
-    "server_port": 1,
-    "password": "x",
-    "method": "2022-blake3-aes-128-gcm"
-}
-
+  "server": "::",
+  "server_port": 115,
+  "password": "YOURPASSWORD",
+  "method": "2022-blake3-aes-256-gcm",
+  "timeout": 7200,
+  "mode": "tcp_and_udp",
+  "nofile": 10240,
+  "keep_alive": 15,
+  "runtime": {
+    "mode": "multi_thread",
+    "worker_count": 4 
+   }
+ }
 ```
 
 AEAD 2022 Ciphers
