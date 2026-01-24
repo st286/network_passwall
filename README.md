@@ -104,7 +104,9 @@ WantedBy=multi-user.target
 
 ```
 
-    vim  /etc/shadowsocks-rust/config.json 
+vim  /etc/shadowsocks-rust/config.json 
+
+测试配置：运行 ssserver -c /etc/shadowsocks-rust/config.json 测试是否正常启动。
 
 ```
 {
@@ -121,6 +123,28 @@ WantedBy=multi-user.target
     "worker_count": 4 
    }
  }
+```
+
+设置多端口的server: 使用 servers 数组
+
+```
+{
+  "servers": [
+    {
+      "address": "0.0.0.0",
+       ......
+    },
+    {
+      "address": "::",
+      "mode": "tcp_only"
+      ......
+    },
+    {
+      "disabled": true,
+      "address": "0.0.0.0",
+    }
+  ],
+}
 ```
 
 AEAD 2022 Ciphers
