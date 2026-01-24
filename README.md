@@ -57,78 +57,8 @@ running:
 
 
 </details>
-
-
 ---
 
-## [Juicity](https://github.com/juicity/juicity)
-
-[juicity-server](https://github.com/juicity/juicity/tree/main/cmd/server)
-
-[juicity-client](https://github.com/juicity/juicity/tree/main/cmd/client)
-
-<details> Juicity Server
-
-Build from sratch
-
-```
-git clone https://github.com/juicity/juicity
-cd juicity
-make CGO_ENABLED=0 juicity-server
-```
-Configuration
-
-[UUID-generator](https://www.v2fly.org/en_US/awesome/tools.html)
-
-自签名证书:  ( /etc/juicity/ )
-
-    openssl req -x509 -newkey rsa:4096 -keyout private_key.pem -out certificate.pem -days 365 -nodes
-        
-生成一个私钥 (private_key.pem) 和一个证书 (certificate.pem)，有效期为 365 天
-
-
-config.json ( /etc/juicity/config.json )
-
-```
-{
-  "listen": ":443",
-  "users": {
-    "00000000-0000-0000-0000-000000000000": "my_password"
-  },
-  "certificate": "/etc/juicity/certificate.pem",
-  "private_key": "/etc/juicity/private_key.pem",
-  "congestion_control": "bbr",
-  "disable_outbound_udp443": false,
-  "log_level": "info"
-}
-```
-
-systemd service ( /lib/systemd/system/juicity.service )
-```
-[Unit]
-Description=sing-box service
-Documentation=https://sing-box.sagernet.org
-After=network.target nss-lookup.target network-online.target
-
-[Service]
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
-ExecStart=/root/juicity/juicity-server run -c /etc/juicity/config.json
-ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
-RestartSec=10s
-LimitNOFILE=infinity
-
-[Install]
-WantedBy=multi-user.target
-```
-systemctl
-```
-systemctl enable juicity.service --now
-```
-</details>
-
----
 
 ## [Shadowsocks-rust]()
 
@@ -199,6 +129,77 @@ AEAD 2022 Ciphers
 
         ssservice genkey -m "METHOD_NAME"  // generate a secured and safe key
 
+</details>
+
+---
+
+---
+
+## [Juicity](https://github.com/juicity/juicity)
+
+[juicity-server](https://github.com/juicity/juicity/tree/main/cmd/server)
+
+[juicity-client](https://github.com/juicity/juicity/tree/main/cmd/client)
+
+<details> Juicity Server
+
+Build from sratch
+
+```
+git clone https://github.com/juicity/juicity
+cd juicity
+make CGO_ENABLED=0 juicity-server
+```
+Configuration
+
+[UUID-generator](https://www.v2fly.org/en_US/awesome/tools.html)
+
+自签名证书:  ( /etc/juicity/ )
+
+    openssl req -x509 -newkey rsa:4096 -keyout private_key.pem -out certificate.pem -days 365 -nodes
+        
+生成一个私钥 (private_key.pem) 和一个证书 (certificate.pem)，有效期为 365 天
+
+
+config.json ( /etc/juicity/config.json )
+
+```
+{
+  "listen": ":443",
+  "users": {
+    "00000000-0000-0000-0000-000000000000": "my_password"
+  },
+  "certificate": "/etc/juicity/certificate.pem",
+  "private_key": "/etc/juicity/private_key.pem",
+  "congestion_control": "bbr",
+  "disable_outbound_udp443": false,
+  "log_level": "info"
+}
+```
+
+systemd service ( /lib/systemd/system/juicity.service )
+```
+[Unit]
+Description=sing-box service
+Documentation=https://sing-box.sagernet.org
+After=network.target nss-lookup.target network-online.target
+
+[Service]
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+ExecStart=/root/juicity/juicity-server run -c /etc/juicity/config.json
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10s
+LimitNOFILE=infinity
+
+[Install]
+WantedBy=multi-user.target
+```
+systemctl
+```
+systemctl enable juicity.service --now
+```
 </details>
 
 ---
