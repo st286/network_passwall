@@ -96,7 +96,7 @@ AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRAC
 ExecStart=/root/.cargo/bin/ssserver -c /etc/shadowsocks-rust/config.json 
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
-RestartSec=10s
+RestartSec=5s
 LimitNOFILE=infinity
 
 [Install]
