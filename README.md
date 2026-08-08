@@ -2,64 +2,10 @@
 
 ---
 
-## [Sing-box](https://sing-box.sagernet.org) 
- <details> 
-
-  [sing-box _ github.com ](https://github.com/SagerNet/sing-box)
-
-  [sing-box 1.8.0+版本迁移指南，Rule Set配置使用](https://idev.dev/proxy/sing-box-rule-set.html)
-
-  [sing-box __ manual ](https://sing-box.sagernet.org)
-
-  [NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid)
-
-  [sing-box __ examples __ configuration files](https://github.com/chika0801/sing-box-examples)
-
-  [ Shadowsock __ AEAD 2022 setup ](https://pincong.rocks/article/item_id-1138365)
-
-  [网络代理平台的“瑞士军刀”](https://bulianglin.com/archives/sing-box.html)
-
-  [使用 TUN 的模式](https://zu1k.com/posts/coding/tun-mode/)
-
-</details>
-
-###  installation
-<details>
-
-client: build from source.
-
-```
-git clone https://github.com/SagerNet/sing-box.git
-cd sing-box
-make
-make install
-```
 
 
-server setup (linux):
-
-`curl -fsSL https://sing-box.app/install.sh | sh`
-
-`curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta`
-
-
-vim /etc/sing-box/config.json
-
-    ##generate password. method is 2022-blake3-chacha20-poly1305
-    
-    sing-box generate rand --base64  32
-    
-
-running:
-
-`systemctl enable sing-box --now | systemctl restart sing-box | systemctl status sing-box`
-
-
-
-</details>
 
 ---
-
 
 ## [Shadowsocks-rust]()
 
@@ -153,6 +99,64 @@ AEAD 2022 Ciphers
         2022-blake3-chacha20-poly1305, 2022-blake3-chacha8-poly1305
 
         ssservice genkey -m "METHOD_NAME"  // generate a secured and safe key
+
+</details>
+
+---
+
+## [Sing-box](https://sing-box.sagernet.org) 
+ <details> 
+
+  [sing-box _ github.com ](https://github.com/SagerNet/sing-box)
+
+  [sing-box 1.8.0+版本迁移指南，Rule Set配置使用](https://idev.dev/proxy/sing-box-rule-set.html)
+
+  [sing-box __ manual ](https://sing-box.sagernet.org)
+
+  [NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid)
+
+  [sing-box __ examples __ configuration files](https://github.com/chika0801/sing-box-examples)
+
+  [ Shadowsock __ AEAD 2022 setup ](https://pincong.rocks/article/item_id-1138365)
+
+  [网络代理平台的“瑞士军刀”](https://bulianglin.com/archives/sing-box.html)
+
+  [使用 TUN 的模式](https://zu1k.com/posts/coding/tun-mode/)
+
+</details>
+
+###  installation
+<details>
+
+client: build from source.
+
+```
+git clone https://github.com/SagerNet/sing-box.git
+cd sing-box
+make
+make install
+```
+
+
+server setup (linux):
+
+`curl -fsSL https://sing-box.app/install.sh | sh`
+
+`curl -fsSL https://sing-box.app/install.sh | sh -s -- --beta`
+
+
+vim /etc/sing-box/config.json
+
+    ##generate password. method is 2022-blake3-chacha20-poly1305
+    
+    sing-box generate rand --base64  32
+    
+
+running:
+
+`systemctl enable sing-box --now | systemctl restart sing-box | systemctl status sing-box`
+
+
 
 </details>
 
