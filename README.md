@@ -4,7 +4,9 @@
 
 ## [shadowsocks-libev](https://github.com/shadowsocks/shadowsocks-libev)
 
+Shadowsocks-libev is a lightweight secured SOCKS5 proxy for embedded devices and low-end boxes. Shadowsocks-libev is written in pure C and depends on libev. It's designed to be a lightweight implementation of shadowsocks protocol, in order to keep the resource usage as low as possible.
 
+[shadowsocks-android](https://github.com/shadowsocks/shadowsocks-android)
 
 
 ---
