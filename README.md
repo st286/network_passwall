@@ -4,10 +4,105 @@
 
 ## [shadowsocks-libev](https://github.com/shadowsocks/shadowsocks-libev)
 
-Shadowsocks-libev is a lightweight secured SOCKS5 proxy for embedded devices and low-end boxes. Shadowsocks-libev is written in pure C and depends on libev. It's designed to be a lightweight implementation of shadowsocks protocol, in order to keep the resource usage as low as possible.
-
 [shadowsocks-android](https://github.com/shadowsocks/shadowsocks-android)
 
+<details>
+
+Linux
+
+In general, you need the following build dependencies:
+
+cmake (>= 3.2)
+a C compiler (gcc or clang)
+pkg-config
+libmbedtls
+libsodium (>= 1.0.4)
+libpcre2
+libev
+libc-ares
+asciidoc (for documentation only)
+xmlto (for documentation only)
+If your system is too old to provide libmbedtls and libsodium (>= 1.0.4), you will need to either install those libraries manually or upgrade your system.
+
+Install build dependencies for your distribution:
+
+```
+# Debian / Ubuntu
+sudo apt-get install --no-install-recommends build-essential cmake pkg-config \
+    libpcre2-dev libev-dev libc-ares-dev libmbedtls-dev libsodium-dev \
+    asciidoc xmlto
+```
+Then build and install:
+```
+git clone https://github.com/shadowsocks/shadowsocks-libev.git
+cd shadowsocks-libev
+
+git submodule update --init --recursive
+mkdir -p build && cd build
+cmake ..
+make
+sudo make install
+```
+证是否安装成功：
+```
+/usr/local/bin/ss-server -h
+```
+如果能看到帮助信息，说明编译安装成功。
+```
+vim /etc/shadowsocks-libev/config.json
+
+将以下内容粘贴进去
+{
+    "server": ["0.0.0.0", "::"],
+    "mode": "tcp_and_udp",
+    "server_port": 8388,
+    "password": "YourStrongPasswordHere!",
+    "timeout": 300,
+    "method": "chacha20-ietf-poly1305",
+    "fast_open": false,
+    "nameserver": "8.8.8.8"
+}
+```
+配置 Systemd 守护进程
+```
+vim /etc/systemd/system/shadowsocks-server.service
+
+写入以下配置：
+
+[Unit]
+Description=Shadowsocks-libev Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+```
+启动服务并设置开机自启
+```
+# 重新加载 Systemd 配置
+systemctl daemon-reload
+
+# 启动 Shadowsocks 服务
+systemctl start shadowsocks-server
+
+# 设置为开机自启动
+systemctl enable shadowsocks-server
+
+# 查看运行状态
+systemctl status shadowsocks-server
+
+```
+你看到类似于 Active: active (running) 的绿色提示时，说明你的 Shadowsocks 服务端已经成功在后台运行了。接下来，你只需要像之前一样，确保你的防火墙（如 UFW 或云服务商的安全组）放行了你配置的端口即可。
+
+
+
+</details>
 
 ---
 
