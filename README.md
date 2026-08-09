@@ -106,7 +106,7 @@ systemctl status shadowsocks-server
 
 ---
 
-## [Shadowsocks-rust]()
+## [Shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
 
 <details>
 
