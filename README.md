@@ -380,7 +380,7 @@ After=network.target
 [Service]
 Type=simple
 # 开启 v3 协议，监听 443，转发给 127.0.0.1:8388，伪装目标为 iCloud
-ExecStart=/usr/local/bin/shadow-tls --v3 server --listen 0.0.0.0:443 --server 127.0.0.1:8388 --tls gateway.icloud.com:443 --password YOUR_SHADOWTLS_PASSWORD
+ExecStart=/usr/local/bin/shadow-tls --v3 server --listen [::]:443 --server 127.0.0.1:8388 --tls swdist.apple.com:443 --password YOUR_SHADOWTLS_PASSWORD
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
