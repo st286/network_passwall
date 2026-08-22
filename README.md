@@ -109,7 +109,6 @@ systemctl status shadowsocks-server
 ## [Shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
 
 <details>
-<details>
 在 Debian Linux 上安装 `shadowsocks-rust` 是一个非常棒的选择。它是纯 Rust 编写的，极度轻量、完全没有内存垃圾回收（GC）开销，且对最新的 **SS-2022 标准** 支持最为完美。
 
 以下是使用**官方预编译二进制文件**在 Debian VPS 上安装和配置的完整步骤（推荐配合刚才提到的 `2022-blake3-aes-256-gcm` 协议使用）：
@@ -131,15 +130,15 @@ sudo su
 apt update && apt install -y wget xz-utils
 
 # 下载 x86_64 架构的压缩包（如果您的 VPS 是 ARM 架构，请把链接中的 x86_64 换成 aarch64）
-wget https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-v1.21.2.x86_64-unknown-linux-gnu.tar.xz
+wget https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.24.0/shadowsocks-v1.24.0.x86_64-unknown-linux-gnu.tar.xz
 
 # 解压文件
 tar -xvf shadowsocks-*.tar.xz
 
 ```
 
-
 *(注：如果上述链接因版本更新失效，请前往 `[https://github.com/shadowsocks/shadowsocks-rust/releases](https://github.com/shadowsocks/shadowsocks-rust/releases)` 复制最新的 `x86_64-unknown-linux-gnu.tar.xz` 下载链接)*
+
 3. **将服务端核心文件移入系统路径**：
 `shadowsocks-rust` 包含多个文件，我们作为服务端只需要用到 `ssserver`。
 ```bash
@@ -275,10 +274,6 @@ ufw allow 8388/udp
 如果您使用的是云服务商（AWS、Google Cloud、阿里云等），**请务必去网页控制台的安全组规则中，放行 8388 的 TCP 和 UDP**。
 
 现在，您就可以打开 Shadowrocket 手机端，选择 `2022-blake3-aes-256-gcm` 算法，填入那串 Base64 密码进行连接了！
-
-    
-</details>
-
 </details>
 
 ---
