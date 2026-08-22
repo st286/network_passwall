@@ -278,7 +278,7 @@ ufw allow 8388/udp
 
 shadowsocks-rust 的 ShadowTLS server 设置 
 
-<details>
+<details>[shadowsocks-rust 的 ShadowTLS server 设置]
 这个方案非常极客，也非常契合您的 CN2 GIA 线路！**shadowsocks-rust（负责极致加密） + ShadowTLS（负责极致伪装）** 的组合，既能榨干服务器的网络性能，又能完美隐蔽流量。
 
 它的运行架构是这样的：
@@ -327,7 +327,7 @@ ShadowTLS 也是使用 Rust 编写的，单文件免安装，直接下载即可�
 
 1. **下载最新版 ShadowTLS**（以 x86_64 架构为例）：
 ```bash
-wget https://github.com/ihciah/shadow-tls/releases/latest/download/shadow-tls-x86_64-unknown-linux-musl -O /usr/local/bin/shadow-tls
+wget https://github.com/ihciah/shadow-tls/releases/download/v0.2.25/shadow-tls-x86_64-unknown-linux-musl -O /usr/local/bin/shadow-tls
 
 ```
 
