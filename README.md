@@ -276,7 +276,9 @@ ufw allow 8388/udp
 现在，您就可以打开 Shadowrocket 手机端，选择 `2022-blake3-aes-256-gcm` 算法，填入那串 Base64 密码进行连接了！
 </details>
 
-### shadowsocks-rust 的 ShadowTLS server 设置 
+###  shadowsocks-rust 的 ShadowTLS server 设置 
+
+[ShadowTLS](https://github.com/ihciah/shadow-tls/releases)
 
 <details>(shadowsocks-rust 的 ShadowTLS server 设置)
     
