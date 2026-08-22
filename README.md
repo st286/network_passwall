@@ -7,6 +7,109 @@
 [shadowsocks-android](https://github.com/shadowsocks/shadowsocks-android)
 
 <details>
+
+Linux
+
+In general, you need the following build dependencies:
+
+cmake (>= 3.2)
+a C compiler (gcc or clang)
+pkg-config
+libmbedtls
+libsodium (>= 1.0.4)
+libpcre2
+libev
+libc-ares
+asciidoc (for documentation only)
+xmlto (for documentation only)
+If your system is too old to provide libmbedtls and libsodium (>= 1.0.4), you will need to either install those libraries manually or upgrade your system.
+
+Install build dependencies for your distribution:
+
+```
+# Debian / Ubuntu
+sudo apt-get install --no-install-recommends build-essential cmake pkg-config \
+    libpcre2-dev libev-dev libc-ares-dev libmbedtls-dev libsodium-dev \
+    asciidoc xmlto
+```
+Then build and install:
+```
+git clone https://github.com/shadowsocks/shadowsocks-libev.git
+cd shadowsocks-libev
+
+git submodule update --init --recursive
+mkdir -p build && cd build
+cmake ..
+make
+sudo make install
+```
+证是否安装成功：
+```
+/usr/local/bin/ss-server -h
+```
+如果能看到帮助信息，说明编译安装成功。
+```
+vim /etc/shadowsocks-libev/config.json
+
+将以下内容粘贴进去
+{
+    "server": ["0.0.0.0", "::"],
+    "mode": "tcp_and_udp",
+    "server_port": 8388,
+    "password": "YourStrongPasswordHere!",
+    "timeout": 300,
+    "method": "chacha20-ietf-poly1305",
+    "fast_open": false,
+    "nameserver": "8.8.8.8"
+}
+```
+配置 Systemd 守护进程
+```
+vim /etc/systemd/system/shadowsocks-server.service
+
+写入以下配置：
+
+[Unit]
+Description=Shadowsocks-libev Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+```
+启动服务并设置开机自启
+```
+# 重新加载 Systemd 配置
+systemctl daemon-reload
+
+# 启动 Shadowsocks 服务
+systemctl start shadowsocks-server
+
+# 设置为开机自启动
+systemctl enable shadowsocks-server
+
+# 查看运行状态
+systemctl status shadowsocks-server
+
+```
+你看到类似于 Active: active (running) 的绿色提示时，说明你的 Shadowsocks 服务端已经成功在后台运行了。接下来，你只需要像之前一样，确保你的防火墙（如 UFW 或云服务商的安全组）放行了你配置的端口即可。
+
+
+
+</details>
+
+---
+
+## [Shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
+
+<details>
+<details>
 在 Debian Linux 上安装 `shadowsocks-rust` 是一个非常棒的选择。它是纯 Rust 编写的，极度轻量、完全没有内存垃圾回收（GC）开销，且对最新的 **SS-2022 标准** 支持最为完美。
 
 以下是使用**官方预编译二进制文件**在 Debian VPS 上安装和配置的完整步骤（推荐配合刚才提到的 `2022-blake3-aes-256-gcm` 协议使用）：
@@ -175,201 +278,6 @@ ufw allow 8388/udp
 
     
 </details>
-
-
-
-<details>
-
-Linux
-
-In general, you need the following build dependencies:
-
-cmake (>= 3.2)
-a C compiler (gcc or clang)
-pkg-config
-libmbedtls
-libsodium (>= 1.0.4)
-libpcre2
-libev
-libc-ares
-asciidoc (for documentation only)
-xmlto (for documentation only)
-If your system is too old to provide libmbedtls and libsodium (>= 1.0.4), you will need to either install those libraries manually or upgrade your system.
-
-Install build dependencies for your distribution:
-
-```
-# Debian / Ubuntu
-sudo apt-get install --no-install-recommends build-essential cmake pkg-config \
-    libpcre2-dev libev-dev libc-ares-dev libmbedtls-dev libsodium-dev \
-    asciidoc xmlto
-```
-Then build and install:
-```
-git clone https://github.com/shadowsocks/shadowsocks-libev.git
-cd shadowsocks-libev
-
-git submodule update --init --recursive
-mkdir -p build && cd build
-cmake ..
-make
-sudo make install
-```
-证是否安装成功：
-```
-/usr/local/bin/ss-server -h
-```
-如果能看到帮助信息，说明编译安装成功。
-```
-vim /etc/shadowsocks-libev/config.json
-
-将以下内容粘贴进去
-{
-    "server": ["0.0.0.0", "::"],
-    "mode": "tcp_and_udp",
-    "server_port": 8388,
-    "password": "YourStrongPasswordHere!",
-    "timeout": 300,
-    "method": "chacha20-ietf-poly1305",
-    "fast_open": false,
-    "nameserver": "8.8.8.8"
-}
-```
-配置 Systemd 守护进程
-```
-vim /etc/systemd/system/shadowsocks-server.service
-
-写入以下配置：
-
-[Unit]
-Description=Shadowsocks-libev Server
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json
-Restart=on-failure
-RestartSec=5
-LimitNOFILE=65535
-
-[Install]
-WantedBy=multi-user.target
-```
-启动服务并设置开机自启
-```
-# 重新加载 Systemd 配置
-systemctl daemon-reload
-
-# 启动 Shadowsocks 服务
-systemctl start shadowsocks-server
-
-# 设置为开机自启动
-systemctl enable shadowsocks-server
-
-# 查看运行状态
-systemctl status shadowsocks-server
-
-```
-你看到类似于 Active: active (running) 的绿色提示时，说明你的 Shadowsocks 服务端已经成功在后台运行了。接下来，你只需要像之前一样，确保你的防火墙（如 UFW 或云服务商的安全组）放行了你配置的端口即可。
-
-
-
-</details>
-
----
-
-## [Shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
-
-<details>
-
-**Note: VPS's memory > 1 G**
-
-### Install from [crates.io](https://crates.io/crates/shadowsocks-rust):
-
-Install from crates.io
-
-    cargo install shadowsocks-rust
-
-then you can find sslocal and ssserver in $CARGO_HOME/bin.
-
-Generate a safe and secured password for a specific encryption method ( 2022-blake3-chacha20-poly1305 in the example) with:
-
-    ssservice genkey -m "2022-blake3-aes-256-gcm"
-
-### 使用 systemd 守护进程
-
-    vim etc/systemd/system/shadowsocks-rust.service 
-
-写入内容如下：
-```
-[Unit]
-Description=shadowsocks rust server
-After=network.target nss-lookup.target network-online.target
-
-[Service]
-User=root
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
-ExecStart=/root/.cargo/bin/ssserver -c /etc/shadowsocks-rust/config.json 
-ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
-RestartSec=5s
-LimitNOFILE=infinity
-
-[Install]
-WantedBy=multi-user.target
-
-```
-
-vim  /etc/shadowsocks-rust/config.json 
-
-测试配置：运行 ssserver -c /etc/shadowsocks-rust/config.json 测试是否正常启动。
-
-```
-{
-  "server": "::",
-  "server_port": 115,
-  "password": "YOURPASSWORD",
-  "method": "2022-blake3-aes-256-gcm",
-  "timeout": 7200,
-  "mode": "tcp_and_udp",
-  "nofile": 10240,
-  "keep_alive": 15,
-  "runtime": {
-    "mode": "multi_thread",
-    "worker_count": 4 
-   }
- }
-```
-
-设置多端口的server: 使用 servers 数组
-
-```
-{
-  "servers": [
-    {
-      "address": "0.0.0.0",
-       ......
-    },
-    {
-      "address": "::",
-      "mode": "tcp_only"
-      ......
-    },
-    {
-      "disabled": true,
-      "address": "0.0.0.0",
-    }
-  ],
-}
-```
-
-AEAD 2022 Ciphers
-
-        2022-blake3-aes-128-gcm, 2022-blake3-aes-256-gcm
-        2022-blake3-chacha20-poly1305, 2022-blake3-chacha8-poly1305
-
-        ssservice genkey -m "METHOD_NAME"  // generate a secured and safe key
 
 </details>
 
