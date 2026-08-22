@@ -276,6 +276,172 @@ ufw allow 8388/udp
 现在，您就可以打开 Shadowrocket 手机端，选择 `2022-blake3-aes-256-gcm` 算法，填入那串 Base64 密码进行连接了！
 </details>
 
+shadowsocks-rust 的 ShadowTLS server 设置 
+
+<details>
+这个方案非常极客，也非常契合您的 CN2 GIA 线路！**shadowsocks-rust（负责极致加密） + ShadowTLS（负责极致伪装）** 的组合，既能榨干服务器的网络性能，又能完美隐蔽流量。
+
+它的运行架构是这样的：
+**手机客户端** ──(伪装成普通的 TLS 握手)──> **[端口 443] ShadowTLS** ──(本地解包转发)──> **[端口 8388] shadowsocks-rust** ──> **真实外网**。
+
+以下是在 Debian 上部署的完整步骤：
+
+### 第一步：修改 shadowsocks-rust 仅监听本地
+
+为了防止 GFW 绕过伪装直接扫描您的 SS 端口，我们需要将 `shadowsocks-rust` 的监听地址从“公开可用”改为“仅限本机访问”。
+
+1. 编辑我们之前创建的 SS 配置文件：
+```bash
+nano /etc/shadowsocks-rust/config.json
+
+```
+
+
+2. 将 `"server"` 的值从 `"::"` 修改为 `"127.0.0.1"`。修改后如下：
+```json
+{
+    "server": "127.0.0.1",
+    "server_port": 8388,
+    "password": "您的SS-2022_Base64密码",
+    "method": "2022-blake3-aes-256-gcm",
+    "mode": "tcp_and_udp",
+    "fast_open": true
+}
+
+```
+
+
+3. 保存退出并重启 SS 服务：
+```bash
+systemctl restart shadowsocks-rust
+
+```
+
+
+
+---
+
+### 第二步：安装 ShadowTLS 服务端
+
+ShadowTLS 也是使用 Rust 编写的，单文件免安装，直接下载即可。
+
+1. **下载最新版 ShadowTLS**（以 x86_64 架构为例）：
+```bash
+wget https://github.com/ihciah/shadow-tls/releases/latest/download/shadow-tls-x86_64-unknown-linux-musl -O /usr/local/bin/shadow-tls
+
+```
+
+
+2. **赋予执行权限**：
+```bash
+chmod +x /usr/local/bin/shadow-tls
+
+```
+
+
+
+---
+
+### 第三步：生成 ShadowTLS 专用密码
+
+**注意：** 这里的密码是 ShadowTLS 用来进行握手验证的，**不是**您之前生成的 SS 密码。千万别搞混。
+
+在终端运行以下命令生成一个随机的 16 位字符密码：
+
+```bash
+openssl rand -hex 8
+
+```
+
+*(假设输出为 `a1b2c3d4e5f6g7h8`，请将其记录下来作为 ShadowTLS 密码。)*
+
+---
+
+### 第四步：配置 ShadowTLS 守护进程（Systemd）
+
+我们将配置 ShadowTLS 监听公网的 **443** 端口，并将合法流量转发给本地的 8388 端口。同时，我们选择 `gateway.icloud.com` 作为伪装域名（SNI）。
+
+1. **创建服务文件**：
+```bash
+nano /etc/systemd/system/shadow-tls.service
+
+```
+
+
+2. **粘贴以下内容**（请将 `YOUR_SHADOWTLS_PASSWORD` 替换为刚才生成的 16 位密码）：
+```ini
+[Unit]
+Description=ShadowTLS Server
+After=network.target
+
+[Service]
+Type=simple
+# 开启 v3 协议，监听 443，转发给 127.0.0.1:8388，伪装目标为 iCloud
+ExecStart=/usr/local/bin/shadow-tls --v3 server --listen 0.0.0.0:443 --server 127.0.0.1:8388 --tls gateway.icloud.com:443 --password YOUR_SHADOWTLS_PASSWORD
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+
+3. **启动并设置开机自启**：
+```bash
+systemctl daemon-reload
+systemctl enable shadow-tls
+systemctl start shadow-tls
+systemctl status shadow-tls
+
+```
+
+
+*(如果看到 `active (running)`，说明双层架构已经成功跑起来了！)*
+
+---
+
+### 第五步：系统防火墙放行 443
+
+因为现在的公网入口变成了 ShadowTLS 的 443 端口，所以您只需放行 443 即可（可以把之前放行的 8388 关掉，提升安全性）：
+
+```bash
+ufw allow 443/tcp
+ufw reload
+
+```
+
+---
+
+### 第六步：iPhone (Shadowrocket) 客户端配置
+
+在小火箭中配置这个“嵌套”节点非常简单，界面原生地支持了 ShadowTLS 插件：
+
+1. 打开 Shadowrocket，点击 **➕** 添加节点。
+2. **类型 (Type)** 选 **Shadowsocks**。
+3. **地址 (Address)** 填您的 VPS 公网 IP。
+4. **端口 (Port)** 填 **443**。（注意：是 443，不是 8388）
+5. **算法 (Algorithm)** 选 **2022-blake3-aes-256-gcm**。
+6. **密码 (Password)** 填您的 **SS-2022 Base64 密码**（最长的那串）。
+7. 向下划，找到 **插件 (Plugin)**，点击进入：
+* 选择 **shadow-tls**。
+* **Host (SNI)** 填入：`gateway.icloud.com`。
+* **Password** 填入您的 **ShadowTLS 密码**（第三步生成的 16 位短密码）。
+* **Version** 选 **V3**。
+
+
+8. 点击右上角保存，返回，再点击右上角完成。
+
+现在，进行连通性测试。如果延迟显示绿色，恭喜您，您已经成功部署了目前网络隐蔽性最高、性能最极致的代理方案之一！
+
+**一个技术小科普：** ShadowTLS 本身只转发 TCP 流量。如果您的 SS 客户端（如 Shadowrocket）开启了 UDP 转发，小火箭会自动使用 "UDP over TCP" 技术，将 UDP 包塞进 TCP 隧道中穿过 ShadowTLS，所以不用担心打游戏或语音电话受影响。
+
+还有任何启动报错或者连接不上的问题吗？我们可以随时看日志排查。
+    
+</details>
+
+
 ---
 
 ## [Sing-box](https://sing-box.sagernet.org) 
