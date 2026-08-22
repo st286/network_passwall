@@ -276,9 +276,10 @@ ufw allow 8388/udp
 现在，您就可以打开 Shadowrocket 手机端，选择 `2022-blake3-aes-256-gcm` 算法，填入那串 Base64 密码进行连接了！
 </details>
 
-shadowsocks-rust 的 ShadowTLS server 设置 
+### shadowsocks-rust 的 ShadowTLS server 设置 
 
-<details>[shadowsocks-rust 的 ShadowTLS server 设置]
+<details>(shadowsocks-rust 的 ShadowTLS server 设置)
+    
 这个方案非常极客，也非常契合您的 CN2 GIA 线路！**shadowsocks-rust（负责极致加密） + ShadowTLS（负责极致伪装）** 的组合，既能榨干服务器的网络性能，又能完美隐蔽流量。
 
 它的运行架构是这样的：
