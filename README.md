@@ -442,6 +442,73 @@ ufw reload
     
 </details>
 
+### 配置 ShadowTLS 守护进程中，推荐几个作为伪装域名（SNI）
+
+<details>
+为 ShadowTLS（或 Reality）选择一个优质的伪装域名（SNI）是这套防封锁架构中最核心的一环。选得好，您的流量在 GFW 看来就是完全合法的白名单大厂流量。
+
+## 挑选优质 SNI 的三大黄金法则
+
+在推荐具体域名之前，您需要了解合格的 SNI 必须满足以下条件：
+
+* **未被 GFW 阻断**：绝不能使用 `google.com` 或 `youtube.com`，否则连接会直接被防火墙切断。
+* **支持 TLS 1.3 与 HTTP/2**：这是现代加密协议的基础，如果伪装目标不支持，很容易被审查系统识别出特征异常。
+* **符合大流量特征**：如果您经常看 4K 视频或下载大文件，伪装成“软件更新”或“云盘同步”的域名，比伪装成“纯文字网页”要合理得多。
+
+---
+
+## 顶级伪装域名 (SNI) 推荐列表
+
+基于您的 CN2 GIA 线路（通常直连美国西海岸），以下是目前极其稳定且经过广泛验证的优质 SNI 推荐：
+
+### 1. 苹果生态 (Apple) —— 最受推荐
+
+苹果的服务器在全球分布极广，且在国内是绝对的白名单，非常适合用来跑大流量。
+
+* **`swdist.apple.com`**：苹果软件更新的分发服务器。**极度推荐**，因为无论您跑多大的流量（比如看 4K 视频），在 GFW 看来都像是您的苹果设备在疯狂下载 iOS 系统更新，极其合理。
+* **`gateway.icloud.com`**：iCloud 数据同步网关，适合日常网页浏览和聊天流量伪装。
+* **`cdn.apple-mapkit.com`**：苹果地图的 CDN 节点，流量特征同样非常健康。
+
+### 2. 微软生态 (Microsoft) —— 稳如泰山
+
+微软的域名在企业级网络审查中拥有极高的信誉度。
+
+* **`[www.microsoft.com](https://www.microsoft.com)`**：微软全球官网，最基础也最稳妥的选择。
+* **`dl.delivery.mp.microsoft.com`**：Windows 系统更新的下载节点，同样非常适合用于掩护大流量的视频或下载需求。
+* **`assets.msn.com`**：MSN 新闻的静态资源 CDN。
+
+### 3. 其他跨国巨头
+
+* **`[www.cisco.com](https://www.cisco.com)`**：思科官网，典型的跨国企业通信特征。
+* **`[www.samsung.com](https://www.samsung.com)`**：三星全球官网。
+
+---
+
+## 如何在 ShadowTLS 中更换 SNI？
+
+如果您想把目前的 `gateway.icloud.com` 换成更适合大流量的 `swdist.apple.com`，只需修改我们之前配置的 Systemd 服务文件：
+
+1. 打开服务文件：
+```bash
+nano /etc/systemd/system/shadow-tls.service
+
+```
+
+
+2. 找到 `ExecStart` 那一行，把 `--tls gateway.icloud.com:443` 修改为 `--tls swdist.apple.com:443`。
+3. 保存退出后，重载并重启服务：
+```bash
+systemctl daemon-reload
+systemctl restart shadow-tls
+
+```
+
+
+*(注意：修改服务端后，**务必**去小火箭的节点设置 -> 插件 -> ShadowTLS 中，把 Host/SNI 也同步修改为新域名！)*
+
+  
+</details>
+
 
 ---
 
