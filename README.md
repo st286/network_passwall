@@ -130,7 +130,7 @@ sudo su
 apt update && apt install -y wget xz-utils
 
 # 下载 x86_64 架构的压缩包（如果您的 VPS 是 ARM 架构，请把链接中的 x86_64 换成 aarch64）
-wget https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.25.0/shadowsocks-v1.25.0.aarch64-unknown-linux-gnu.tar.xz
+wget https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.25.0/shadowsocks-v1.25.0.x86_64-unknown-linux-gnu.tar.xz
 
 # 解压文件
 tar -xvf shadowsocks-*.tar.xz
