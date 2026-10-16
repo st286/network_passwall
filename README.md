@@ -2,7 +2,7 @@
 
 ---
 
-## [shadowsocks-libev](https://github.com/shadowsocks/shadowsocks-libev)
+## [shadowsocks-c](https://github.com/shadowsocks/shadowsocks-c)
 
 [shadowsocks-android](https://github.com/shadowsocks/shadowsocks-android)
 
